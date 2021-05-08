@@ -30,6 +30,8 @@ def make_formatting(file1, file2, file3):
 
 
 def main():
+    file_path1 = ''
+    file_path2 = ''
     parser = argparse.ArgumentParser(prog='gendiff',
                                      description='Generate diff')
     parser.add_argument('-f FORMAT', '--format FORMAT', action='store_true',
@@ -37,6 +39,8 @@ def main():
     parser.add_argument('first_file')
     parser.add_argument('second_file')
     parser.print_help()
+    parser.parse_args()
+
     generate_diff(file_path1, file_path2)
 
 
