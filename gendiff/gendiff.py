@@ -18,21 +18,22 @@ def generate_diff(file_path1, file_path2):
     output_file = make_formatting(diff_before, diff_after, intersect)
     return output_file
 
-    
-def make_formatting(file1,file2,file3):
-    format_file1 = [ ' - ' + str(i[0]) + ': ' + str(i[1]) for i in file1 ]
-    format_file2 = [ ' + ' + str(i[0]) + ': ' + str(i[1]) for i in file2 ]
-    format_file3 = [ '   ' + str(i[0]) + ': ' + str(i[1]) for i in file3 ]
-    merging_files = sorted((format_file1 + format_file2 + format_file3), key= only_str)
-    output = ('{' +'\n'  + '\n'.join(merging_files) + '\n' + '}').lower()
-    return output        
+
+def make_formatting(file1, file2, file3):
+    format_file1 = [' - ' + str(i[0]) + ': ' + str(i[1]) for i in file1]
+    format_file2 = [' + ' + str(i[0]) + ': ' + str(i[1]) for i in file2]
+    format_file3 = ['   ' + str(i[0]) + ': ' + str(i[1]) for i in file3]
+    concatination = format_file1 + format_file2 + format_file3
+    merging_files = sorted(concatination, key=only_str)
+    output = ('{' + '\n' + '\n'.join(merging_files) + '\n' + '}').lower()
+    return output
 
 
 def main():
     parser = argparse.ArgumentParser(prog='gendiff',
-            description='Generate diff')
-    parser.add_argument('-f FORMAT', '--format FORMAT', action = 'store_true',
-            help='set format of output')
+                                     description='Generate diff')
+    parser.add_argument('-f FORMAT', '--format FORMAT', action='store_true',
+                        help='set format of output')
     parser.add_argument('first_file')
     parser.add_argument('second_file')
     parser.print_help()
