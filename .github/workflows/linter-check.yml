@@ -22,5 +22,5 @@ jobs:
         make lint
     - name: Test check
       run: |
-        pytest
+        make test
 
