@@ -1,4 +1,4 @@
-from gendiff.gendiff import generate_diff
+from gendiff.diff import generate_diff
 
 result = '''{
   - follow: false
@@ -9,6 +9,13 @@ result = '''{
   + verbose: true
 }'''
 
-def test_generate_diff():
+def test_generate_diff_json():
     result_out = generate_diff('tests/test_example/file1.json', 'tests/test_example/file2.json')
     assert result_out == result
+
+
+def test_generate_diff_yaml():
+  result_out = generate_diff('tests/test_example/file1.yml', 'tests/test_example/file2.yml')
+  assert result_out == result
+
+

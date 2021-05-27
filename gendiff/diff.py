@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-import json
+from gendiff.format.parsing import get_type
 
 
 def to_only_str(s):
@@ -9,8 +8,9 @@ def to_only_str(s):
 
 
 def generate_diff(file_path1, file_path2):
-    read_file1 = json.load(open(file_path1))
-    read_file2 = json.load(open(file_path2))
+    read_file1 = get_type(file_path1)
+    print(type(read_file1))
+    read_file2 = get_type(file_path2)
     file_before = read_file1.keys()
     file_after = read_file2.keys()
     diff_before = file_before - file_after
