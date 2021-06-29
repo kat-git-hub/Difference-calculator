@@ -1,48 +1,36 @@
-from gendiff.format.parsing import get_type
-
-
-def to_only_str(s):
-    d = s.strip(' -+')
-    a = d.split(':')
-    return a[0]
+from gendiff.format.parsing import get_parsing
 
 
 def generate_diff(file_path1, file_path2):
-    read_file1 = get_type(file_path1)
-    print(type(read_file1))
-    read_file2 = get_type(file_path2)
-    file_before = read_file1.keys()
-    file_after = read_file2.keys()
+    source1 = get_parsing(file_path1)
+    source2 = get_parsing(file_path2)
+    return diff(source1, source2)
+
+
+def diff(source1, source2):
+    file_before = source1.keys()
+    file_after = source2.keys()
     diff_before = file_before - file_after
     diff_after = file_after - file_before
     intersect = file_before & file_after
-    result = {'add': {}, 'remove': {}, 'change': {}, 'same': {}}
+    result = []
     for key in intersect:
-        if read_file1[key] == read_file2[key]:
-            result['same'][key] = read_file1[key]
+        if isinstance(source1[key], dict) and isinstance(source2[key], dict):
+            result.append({
+                'key': key, 'value': diff(source1[key], source2[key]),
+                'type': 'nested'})
         else:
-            result['change'][key] = (read_file1[key], read_file2[key])
+            if source1[key] == source2[key]:
+                result.append({
+                    'key': key, 'value': source1[key],
+                    'type': 'unchanged'})
+            else:
+                result.append({
+                    'key': key, 'value': (source1[key], source2[key]),
+                    'type': 'changed'})
     for key in diff_before:
-        result['remove'][key] = read_file1[key]
+        result.append({'key': key, 'value': source1[key], 'type': 'removed'})
+
     for key in diff_after:
-        result['add'][key] = read_file2[key]
-    result1 = make_formatting(result)
-    result2 = sorted(result1, key=to_only_str)
-    result3 = ('{' + '\n  ' + '\n  '.join(result2) + '\n' + '}').lower()
-    return result3
-
-
-def make_formatting(data):
-    output = []
-    for key, value in data.items():
-        for i, j in value.items():
-            if key == 'add':
-                output.append('+ ' + str(i) + ': ' + str(j))
-            elif key == 'remove':
-                output.append('- ' + str(i) + ': ' + str(j))
-            elif key == 'same':
-                output.append('  ' + str(i) + ': ' + str(j))
-            elif key == 'change':
-                output.append('- ' + str(i) + ': ' + str(j[0]))
-                output.append('+ ' + str(i) + ': ' + str(j[1]))
-    return output
+        result.append({'key': key, 'value': source2[key], 'type': 'added'})
+    return result
