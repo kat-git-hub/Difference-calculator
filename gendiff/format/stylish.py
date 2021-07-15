@@ -1,9 +1,9 @@
 
-def stylish(data, nesting_level):
+def get_render(data, nesting_level):
     output = ""
     spaces = get_spaces(nesting_level)
-    d = sorted(data, key=lambda i: i['key'])
-    for i in d:
+    sorting_content = sorted(data, key=lambda i: i['key'])
+    for i in sorting_content:
         if i['type'] == 'added':
             if type(i['value']) == dict:
                 output += '\n' + spaces + '+ ' + (i['key']) + ': '\
@@ -33,7 +33,7 @@ def stylish(data, nesting_level):
                     + make_pack(i['value'], nesting_level)
         elif i['type'] == 'nested':
             output += '\n' + spaces + '  ' + (i['key']) + ': '\
-                + stylish(i['value'], nesting_level + 1)
+                + get_render(i['value'], nesting_level + 1)
     if nesting_level > 1:
         result = '{' + output + '\n' + get_spaces(nesting_level - 1) + '  }'
     else:
