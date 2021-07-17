@@ -13,7 +13,7 @@ def get_plain(data, parent=""):
                       f" was added with value: {get_value(i['value'])}"
         elif i['type'] == 'removed':
             output += f"\nProperty \'{get_path(parent)}{(i['key'])}'" \
-                      f"was removed"
+                      f" was removed"
         elif i['type'] == 'nested':
             output += get_plain(i['value'], f"{get_path(parent)}{i['key']}")
     return output

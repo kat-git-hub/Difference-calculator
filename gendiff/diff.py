@@ -1,12 +1,3 @@
-from gendiff.format.parsing import get_parsing
-
-
-def generate_diff(file_path1, file_path2):
-    source1 = get_parsing(file_path1)
-    source2 = get_parsing(file_path2)
-    return diff(source1, source2)
-
-
 def diff(source1, source2):
     file_before = source1.keys()
     file_after = source2.keys()

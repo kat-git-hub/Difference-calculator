@@ -1,5 +1,5 @@
 from gendiff.diff import generate_diff
-from gendiff.format.stylish import get_render
+from gendiff.format import STYLISH, PLAIN, JSON
 #from gendiff.tests.fixtures import test_plain
 import pytest
 import os
@@ -7,70 +7,35 @@ import json
 import yaml
 
 
-path = './tests/fixtures'
-checking_files = ['test_01_before.json','test_01_after.json',
+
+fixtures_path = 'tests/fixtures/'
+checking_files = ['test_01_before.json',
+                                  'test_01_after.json'
                   'test_02_before.yml', 'test_02_after.yml',
-                  'test_03_before.json', 'test_03_after.json'
-                  'test_04_before.yml', 'test_04_after.yml']
+                  #'03_before.json', '03_after.json'
+                  #'04_before.yml', '04_after.yml'
+                  ]
 
-answers = ['test_01_answer']
-  #for i in checking_files:
-#def load_params_from_json(path, checking_file):
-#    with open(path, checking_file) as f:
-        #return json.load(f)
-#        return f.read()
+answers = ['test_01_answer.json']
 
-
+res = '''{
+  - follow: false
+    host: hexlet.io
+  - proxy: 123.234.53.22
+  - timeout: 50
+  + timeout: 20
+  + verbose: true
+}'''
 
 #@pytest.fixture()
 
 
 def test_generate_diff_json_yml():
-  with open(os.path.join(path, 'test_01_answer.json')) as f:
-
-    #for i in checking_files:
-
-  
-
-
-    check = json.load(f)
-  check_json = generate_diff(os.path.join(path, 'test_01_before.json'),
-                os.path.join(path, 'test_01_after.json'))
-  check_yml = generate_diff(os.path.join(path, 'test_02_before.yml'),
-                os.path.join(path, 'test_02_after.yml'))
-  assert check == json.loads(check_json)
-  assert check == yml.loads(check_yml)
-
-
-
-
-#def test_generate_diff_json():
-#  with open(os.path.join(path, checking_files[i]), "r") as f:
-#      templates = json.load(f)
-#    result_out = generate_diff('tests/fixtures/file1.json', 'tests/fixtures/file2.json')
-#    result = get_render(result_out, 1)
-#    assert result == result_plane
-
-
-#def test_generate_diff_yaml():
- # result_out = generate_diff('tests/fixtures/file1.yml', 'tests/fixtures/file2.yml')
-  #result = get_render(result_out, 1)
-  #assert result == result_plane
-
-
-#def test_generate_diff_nested():
- # result_out = generate_diff('tests/fixtures/test_file1.json', 'tests/fixtures/test_file2.json')
-  #result = get_render(result_out, 1)
-  #assert result == result_nested
-
-
-#def test_generate_diff_nested_yml():
-#  result_out = generate_diff('tests/fixtures/test_02_file1.yml', 'tests/fixtures/test_02_file2.yml')
- # result = get_render(result_out, 1)
-  #assert result == result_nested
-
-
-#def test_generate_diff_plain():
-#  result_out = generate_diff('tests/fixtures/test_02_file1.yml', 'tests/fixtures/test_02_file2.yml')
-#  result = get_plain(result_out, 1)
-#  assert result == test_plain
+  with open('tests/fixtures/test_01_answer.txt') as f:
+    check = f.read()
+  check_json = generate_diff('tests/fixtures/test_01_before.json',
+                            'tests/fixtures/test_01_after.json')
+  check_yml = generate_diff(os.path.join(fixtures_path, 'test_02_before.yml'),
+                            os.path.join(fixtures_path, 'test_02_after.yml'))
+  assert check == get_render(check_json, 1)
+  #assert check == check_yml
