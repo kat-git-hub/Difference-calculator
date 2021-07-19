@@ -1,41 +1,41 @@
-from gendiff.diff import generate_diff
-from gendiff.format import STYLISH, PLAIN, JSON
-#from gendiff.tests.fixtures import test_plain
+from gendiff import generate_diff
+from gendiff.format import plain
+from gendiff.format import json
 import pytest
 import os
 import json
 import yaml
 
 
-
 fixtures_path = 'tests/fixtures/'
-checking_files = ['test_01_before.json',
-                                  'test_01_after.json'
-                  'test_02_before.yml', 'test_02_after.yml',
-                  #'03_before.json', '03_after.json'
-                  #'04_before.yml', '04_after.yml'
-                  ]
-
-answers = ['test_01_answer.json']
-
-res = '''{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
-}'''
-
-#@pytest.fixture()
-
+checking_files = {
+  'test_answer_1.txt': ('test_01_before.json', 'test_01_after.json',
+                        'test_02_before.yml', 'test_02_after.yml', None), 
+  'test_answer_2.txt': ('test_03_before.json', 'test_03_after.json',
+                        'test_04_before.yml', 'test_04_after.yml', None),
+  'test_answer_plain.txt': ('test_03_before.json', 'test_03_after.json',
+                            'test_04_before.yml', 'test_04_after.yml', 'plain')              
+                
+                }
 
 def test_generate_diff_json_yml():
-  with open('tests/fixtures/test_01_answer.txt') as f:
-    check = f.read()
-  check_json = generate_diff('tests/fixtures/test_01_before.json',
-                            'tests/fixtures/test_01_after.json')
-  check_yml = generate_diff(os.path.join(fixtures_path, 'test_02_before.yml'),
-                            os.path.join(fixtures_path, 'test_02_after.yml'))
-  assert check == get_render(check_json, 1)
-  #assert check == check_yml
+  for key, item in checking_files.items():
+    with open(os.path.join(fixtures_path, key)) as f:
+      check = f.read()
+    check_json = generate_diff(os.path.join(fixtures_path, item[0]),
+                              os.path.join(fixtures_path, item[1]), item[4])
+    check_yml = generate_diff(os.path.join(fixtures_path, item[2]),
+                             os.path.join(fixtures_path, item[3]), item[4])
+    assert check == check_yml
+    assert check == check_json
+
+
+def test_json():
+  with open(os.path.join(fixtures_path, 'test_answer_json.json')) as f:
+    check = json.load(f)
+  check_json = generate_diff(os.path.join(fixtures_path, 'test_01_before.json'), 
+                              os.path.join(fixtures_path, 'test_01_after.json'), 'json')
+  check_yml = generate_diff(os.path.join(fixtures_path, 'test_02_before.yml'), 
+                              os.path.join(fixtures_path, 'test_02_after.yml'), 'json')
+  assert check == json.loads(check_json)
+  assert check == json.loads(check_yml)

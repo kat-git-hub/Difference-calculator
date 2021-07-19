@@ -11,7 +11,7 @@ def get_file_diff(file_path1, file_path2):
     return source1, source2
 
 
-def generate_diff(source1, source2, formatter):
+def generate_diff(source1, source2, formatter=None):
     source1, source2 = get_file_diff(source1, source2)
     make_diff = diff(source1, source2)
     if formatter == 'plain':

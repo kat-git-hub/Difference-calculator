@@ -1,5 +1,5 @@
 
-def get_render(data, nesting_level=0):
+def get_render(data, nesting_level=1):
     output = ""
     spaces = get_spaces(nesting_level)
     sorting_content = sorted(data, key=lambda i: i['key'])

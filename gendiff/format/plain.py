@@ -6,8 +6,8 @@ def get_plain(data, parent=""):
         if i['type'] == 'changed':
             output += f"\nProperty \'{get_path(parent)}{(i['key'])}\'" \
                       f" was updated. " \
-                      f"From \'{get_value(i['value'][0])}\' to " \
-                      f"'{get_value(i['value'][1])}\' "
+                      f"From {get_value(i['value'][0])} to " \
+                      f"{get_value(i['value'][1])}"
         elif i['type'] == 'added':
             output += f"\nProperty \'{get_path(parent)}{(i['key'])}'"\
                       f" was added with value: {get_value(i['value'])}"
@@ -32,7 +32,7 @@ def get_value(value):
     if type(value) == bool:
         return 'true' if value else 'false'
     if type(value) == str:
-        return f'{value}'
+        return f'\'{value}\''
     if type(value) == dict or type(value) == list:
         return '[complex value]'
     else:
