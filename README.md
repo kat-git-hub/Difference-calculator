@@ -43,5 +43,10 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit'''
 
+----
+
 ### 📺 **Demo**
-https://asciinema.org/a/e4FnonBS4xfCOdbPf1lHdM8lZ
+
+[![asciicast](https://asciinema.org/a/e4FnonBS4xfCOdbPf1lHdM8lZ.svg)](https://asciinema.org/a/e4FnonBS4xfCOdbPf1lHdM8lZ)
+
+----
