@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hexlet-code"
-version = "0.2.0"
+version = "0.3.0"
 description = ""
 authors = ["kat-git-hub <humanpizzza@gmail.com>"]
 packages = [
@@ -8,7 +8,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.8"
 PyYAML = "^5.4"
 
 [tool.poetry.dev-dependencies]

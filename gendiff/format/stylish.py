@@ -1,4 +1,4 @@
-
+# flake8: noqa: C901
 def get_render(data, nesting_level=1):
     output = ""
     spaces = get_spaces(nesting_level)
@@ -6,34 +6,34 @@ def get_render(data, nesting_level=1):
     for i in sorting_content:
         if i['type'] == 'added':
             if type(i['value']) == dict:
-                output += '\n' + spaces + '+ ' + (i['key']) + ': '\
-                    + make_pack(i['value'], nesting_level)
+                output += f"\n{spaces}+ {i['key']}: " \
+                          f"{make_pack(i['value'], nesting_level)}"
             else:
-                output += '\n' + spaces + '+ ' + str(i['key']) + ': '\
-                    + str(make_pack(i['value'], nesting_level))
+                output += f"\n{spaces}+ {str(i['key'])}: " \
+                          f"{str(make_pack(i['value'], nesting_level))}"
         elif i['type'] == 'removed':
             if type(i['value']) == dict:
-                output += '\n' + spaces + '- ' + (i['key']) + ': '\
-                    + (make_pack(i['value'], nesting_level))
+                output += f"\n{spaces}- {i['key']}: " \
+                          f"{make_pack(i['value'], nesting_level)}"
             else:
-                output += '\n' + spaces + '- ' + str(i['key']) + ': '\
-                    + str(make_pack(i['value'], nesting_level))
+                output += f"\n{spaces}- {str(i['key'])}: " \
+                          f"{str(make_pack(i['value'], nesting_level))}"
         elif i['type'] == 'changed':
             if type(i['value']) == tuple:
-                output += '\n' + spaces + '- ' + (i['key']) + ': '\
-                    + str(make_pack(i['value'][0], nesting_level))
-                output += '\n' + spaces + '+ ' + (i['key']) + ': '\
-                    + str(make_pack(i['value'][1], nesting_level))
+                output += f"\n{spaces}- {i['key']}: " \
+                          f"{str(make_pack(i['value'][0], nesting_level))}"
+                output += f"\n{spaces}+ {i['key']}: " \
+                          f"{str(make_pack(i['value'][1], nesting_level))}"
         elif i['type'] == 'unchanged':
             if type(i['value']) == dict:
-                output += '\n' + spaces + '  ' + (i['key']) + ': '\
-                    + make_pack(i['value'], nesting_level)
+                output += f"\n{spaces}  {i['key']}: " \
+                          f"{make_pack(i['value'], nesting_level)}"
             else:
-                output += '\n' + spaces + '  ' + (i['key']) + ': '\
-                    + make_pack(i['value'], nesting_level)
+                output += f"\n{spaces}  {i['key']}: " \
+                          f"{make_pack(i['value'], nesting_level)}"
         elif i['type'] == 'nested':
-            output += '\n' + spaces + '  ' + (i['key']) + ': '\
-                + get_render(i['value'], nesting_level + 1)
+            output += f"\n{spaces}  {i['key']}: " \
+                      f"{get_render(i['value'], nesting_level + 1)}"
     if nesting_level > 1:
         result = '{' + output + '\n' + get_spaces(nesting_level - 1) + '  }'
     else:

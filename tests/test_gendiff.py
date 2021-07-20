@@ -14,7 +14,8 @@ checking_files = {
   'test_answer_2.txt': ('test_03_before.json', 'test_03_after.json',
                         'test_04_before.yml', 'test_04_after.yml', None),
   'test_answer_plain.txt': ('test_03_before.json', 'test_03_after.json',
-                            'test_04_before.yml', 'test_04_after.yml', 'plain')              
+                            'test_04_before.yml', 'test_04_after.yml', 'plain'),
+               
                 
                 }
 
