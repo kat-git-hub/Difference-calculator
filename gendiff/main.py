@@ -1,6 +1,6 @@
 from gendiff.diff import diff
 from gendiff.format.stylish import get_render
-from gendiff.format.parsing import get_parsing
+from gendiff.parsing import get_parsing
 from gendiff.format.json import get_json
 from gendiff.format.plain import get_plain
 

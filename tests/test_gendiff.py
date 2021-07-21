@@ -15,11 +15,9 @@ checking_files = {
                         'test_04_before.yml', 'test_04_after.yml', None),
   'test_answer_plain.txt': ('test_03_before.json', 'test_03_after.json',
                             'test_04_before.yml', 'test_04_after.yml', 'plain'),
-               
-                
-                }
+                 }
 
-def test_generate_diff_json_yml():
+def test_stylish_plain():
   for key, item in checking_files.items():
     with open(os.path.join(fixtures_path, key)) as f:
       check = f.read()
