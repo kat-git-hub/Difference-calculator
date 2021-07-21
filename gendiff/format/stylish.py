@@ -1,47 +1,47 @@
 # flake8: noqa: C901
-def get_render(data, nesting_level=1):
+def get_render(data, indent_level=1):
     output = ""
-    spaces = get_spaces(nesting_level)
+    spaces = get_spaces(indent_level)
     sorting_content = sorted(data, key=lambda i: i['key'])
     for i in sorting_content:
         if i['type'] == 'added':
             if type(i['value']) == dict:
                 output += f"\n{spaces}+ {i['key']}: " \
-                          f"{make_pack(i['value'], nesting_level)}"
+                          f"{make_pack(i['value'], indent_level)}"
             else:
                 output += f"\n{spaces}+ {str(i['key'])}: " \
-                          f"{str(make_pack(i['value'], nesting_level))}"
+                          f"{str(make_pack(i['value'], indent_level))}"
         elif i['type'] == 'removed':
             if type(i['value']) == dict:
                 output += f"\n{spaces}- {i['key']}: " \
-                          f"{make_pack(i['value'], nesting_level)}"
+                          f"{make_pack(i['value'], indent_level)}"
             else:
                 output += f"\n{spaces}- {str(i['key'])}: " \
-                          f"{str(make_pack(i['value'], nesting_level))}"
+                          f"{str(make_pack(i['value'], indent_level))}"
         elif i['type'] == 'changed':
             if type(i['value']) == tuple:
                 output += f"\n{spaces}- {i['key']}: " \
-                          f"{str(make_pack(i['value'][0], nesting_level))}"
+                          f"{str(make_pack(i['value'][0], indent_level))}"
                 output += f"\n{spaces}+ {i['key']}: " \
-                          f"{str(make_pack(i['value'][1], nesting_level))}"
+                          f"{str(make_pack(i['value'][1], indent_level))}"
         elif i['type'] == 'unchanged':
             if type(i['value']) == dict:
                 output += f"\n{spaces}  {i['key']}: " \
-                          f"{make_pack(i['value'], nesting_level)}"
+                          f"{make_pack(i['value'], indent_level)}"
             else:
                 output += f"\n{spaces}  {i['key']}: " \
-                          f"{make_pack(i['value'], nesting_level)}"
+                          f"{make_pack(i['value'], indent_level)}"
         elif i['type'] == 'nested':
             output += f"\n{spaces}  {i['key']}: " \
-                      f"{get_render(i['value'], nesting_level + 1)}"
-    if nesting_level > 1:
-        result = '{' + output + '\n' + get_spaces(nesting_level - 1) + '  }'
+                      f"{get_render(i['value'], indent_level + 1)}"
+    if indent_level > 1:
+        result = '{' + output + '\n' + get_spaces(indent_level - 1) + '  }'
     else:
-        result = '{' + output + '\n' + get_spaces(nesting_level - 1) + '}'
+        result = '{' + output + '\n' + get_spaces(indent_level - 1) + '}'
     return result
 
 
-def make_pack(node, nesting_level=0):
+def make_pack(node, indent_level=0):
     if node is None:
         return 'null'
     if type(node) is bool:
@@ -49,13 +49,13 @@ def make_pack(node, nesting_level=0):
     if isinstance(node, dict):
         output_text = '{'
         for key, value in node.items():
-            spaces = get_spaces(nesting_level + 1)
+            spaces = get_spaces(indent_level + 1)
             if isinstance(value, dict):
                 output_text += f'\n{spaces}  {key}: ' \
-                    f'{make_pack(value, nesting_level + 1)}'
+                    f'{make_pack(value, indent_level + 1)}'
             else:
                 output_text += f'\n{spaces}  {key}: {value}'
-        output_text += f'\n{get_spaces(nesting_level)}  }}'
+        output_text += f'\n{get_spaces(indent_level)}  }}'
         return output_text
     else:
         return node
