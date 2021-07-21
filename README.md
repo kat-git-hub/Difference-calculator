@@ -1,6 +1,7 @@
-##  **Difference calculator**
+<h1 align="center"> **Difference calculator**</h1>
 
-Finds and Displays the difference between two files
+### :metal: **About...**
+- Find and Displays difference beetwet two JSON/YAML-files
 ----
 
 ### 🌚 **Hexlet tests and linter status**
@@ -15,7 +16,7 @@ Finds and Displays the difference between two files
 
 - Clone the project:
 
-  `$ git clone git@github.com:kat-git-hub/python-project-lvl1.git`
+  `$ git clone git@github.com:kat-git-hub/python-project-lvl2.git`
 
 - Cd into the directory with the project and run:
 
@@ -29,9 +30,9 @@ Finds and Displays the difference between two files
 
 ### 🤓 **Usage**
 
-display help information:
+- Display help information:
 
-'''$ gendiff -h
+```$ gendiff -h
 usage: gendiff [-h] first_file second_file
 
 Generate diff
@@ -41,8 +42,8 @@ positional arguments:
   second_file
 
 optional arguments:
-  -h, --help            show this help message and exit'''
-
+  -h, --help            show this help message and exit
+```
 ----
 
 ### 📺 **Demo**
