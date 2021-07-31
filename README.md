@@ -1,7 +1,7 @@
-<h1 align="center"> **Difference calculator**</h1>
+# **Difference calculator**
 
 ### :metal: **About...**
-- Find and Displays difference beetwet two JSON/YAML-files
+- Find and Displays difference between two JSON/YAML-files
 ----
 
 ### 🌚 **Hexlet tests and linter status**

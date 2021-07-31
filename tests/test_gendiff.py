@@ -17,6 +17,9 @@ checking_files = {
                             'test_04_before.yml', 'test_04_after.yml', 'plain'),
                  }
 
+
+#@pytest.mark.parametrize(item[], file2, formatter)
+
 def test_stylish_plain():
   for key, item in checking_files.items():
     with open(os.path.join(fixtures_path, key)) as f:
