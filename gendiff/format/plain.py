@@ -1,21 +1,27 @@
+from gendiff import diff
+
 
 def get_plain(data, parent=""):
+    path = get_path(parent)
     output = ''
-    sorting_content = sorted(data, key=lambda i: i['key'])
+    sorting_content = sorted(data, key=lambda i: i[diff.KEY])
     for i in sorting_content:
-        if i['type'] == 'changed':
-            output += f"\nProperty \'{get_path(parent)}{(i['key'])}\'" \
-                      f" was updated. " \
-                      f"From {get_value(i['value'][0])} to " \
-                      f"{get_value(i['value'][1])}"
-        elif i['type'] == 'added':
-            output += f"\nProperty \'{get_path(parent)}{(i['key'])}'"\
-                      f" was added with value: {get_value(i['value'])}"
-        elif i['type'] == 'removed':
-            output += f"\nProperty \'{get_path(parent)}{(i['key'])}'" \
-                      f" was removed"
-        elif i['type'] == 'nested':
-            output += get_plain(i['value'], f"{get_path(parent)}{i['key']}")
+        key = i[diff.KEY]
+        value = i[diff.VALUE]
+        status = i[diff.TYPE]
+        if status == diff.CHANGED:
+            output += "\nProperty '{}{}' was updated. "\
+                .format(path, key)
+            output += "From {} to {}"\
+                .format(get_value(value[0]), get_value(value[1]))
+        elif status == diff.ADDED:
+            output += "\nProperty '{}{}' was added with value: {}"\
+                .format(path, key, get_value(value))
+        elif status == diff.REMOVED:
+            output += "\nProperty '{}{}' was removed"\
+                .format(path, key)
+        elif status == diff.NESTED:
+            output += get_plain(value, f"{path}{key}")
     return output
 
 

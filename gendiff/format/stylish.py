@@ -1,39 +1,45 @@
 # flake8: noqa: C901
-def get_render(data, indent_level=1):
+from gendiff import diff
+
+
+def get_render(data, indent_level=1): 
     output = ""
     spaces = get_spaces(indent_level)
-    sorting_content = sorted(data, key=lambda i: i['key'])
+    sorting_content = sorted(data, key=lambda i: i[diff.KEY])
     for i in sorting_content:
-        if i['type'] == 'added':
-            if type(i['value']) == dict:
-                output += f"\n{spaces}+ {i['key']}: " \
-                          f"{make_pack(i['value'], indent_level)}"
+        status = i[diff.TYPE]
+        value = i[diff.VALUE]
+        key = i[diff.KEY]
+        if status == diff.ADDED:
+            if type(value) == dict:
+                output += f"\n{spaces}+ {key}: " \
+                          f"{make_pack(value, indent_level)}"
             else:
-                output += f"\n{spaces}+ {str(i['key'])}: " \
-                          f"{str(make_pack(i['value'], indent_level))}"
-        elif i['type'] == 'removed':
-            if type(i['value']) == dict:
-                output += f"\n{spaces}- {i['key']}: " \
-                          f"{make_pack(i['value'], indent_level)}"
+                output += f"\n{spaces}+ {str(key)}: " \
+                          f"{str(make_pack(value, indent_level))}"
+        elif status == diff.REMOVED:
+            if type(value) == dict:
+                output += f"\n{spaces}- {key}: " \
+                          f"{make_pack(value, indent_level)}"
             else:
-                output += f"\n{spaces}- {str(i['key'])}: " \
-                          f"{str(make_pack(i['value'], indent_level))}"
-        elif i['type'] == 'changed':
-            if type(i['value']) == tuple:
-                output += f"\n{spaces}- {i['key']}: " \
-                          f"{str(make_pack(i['value'][0], indent_level))}"
-                output += f"\n{spaces}+ {i['key']}: " \
-                          f"{str(make_pack(i['value'][1], indent_level))}"
-        elif i['type'] == 'unchanged':
-            if type(i['value']) == dict:
-                output += f"\n{spaces}  {i['key']}: " \
-                          f"{make_pack(i['value'], indent_level)}"
+                output += f"\n{spaces}- {str(key)}: " \
+                          f"{str(make_pack(value, indent_level))}"
+        elif status == diff.CHANGED:
+            if type(value) == tuple:
+                output += f"\n{spaces}- {key}: " \
+                          f"{str(make_pack(value[0], indent_level))}"
+                output += f"\n{spaces}+ {key}: " \
+                          f"{str(make_pack(value[1], indent_level))}"
+        elif status == diff.UNCHANGED:
+            if type(value) == dict:
+                output += f"\n{spaces}  {key}: " \
+                          f"{make_pack(value, indent_level)}"
             else:
-                output += f"\n{spaces}  {i['key']}: " \
-                          f"{make_pack(i['value'], indent_level)}"
-        elif i['type'] == 'nested':
-            output += f"\n{spaces}  {i['key']}: " \
-                      f"{get_render(i['value'], indent_level + 1)}"
+                output += f"\n{spaces}  {key}: " \
+                          f"{make_pack(value, indent_level)}"
+        elif status == diff.NESTED:
+            output += f"\n{spaces}  {key}: " \
+                      f"{get_render(value, indent_level + 1)}"
     if indent_level > 1:
         result = '{' + output + '\n' + get_spaces(indent_level - 1) + '  }'
     else:
