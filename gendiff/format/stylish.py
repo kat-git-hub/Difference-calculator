@@ -2,6 +2,10 @@
 from gendiff import diff
 
 
+INDENT = 4
+SIGN= 2
+
+
 def get_render(data, indent_level=1): 
     output = ""
     spaces = get_spaces(indent_level)
@@ -66,6 +70,8 @@ def make_pack(node, indent_level=0):
     else:
         return node
 
+def make_brackets():
+    pass
 
 def get_spaces(depth):
-    return ' ' * (depth * 4 - 2)
+    return ' ' * (depth * INDENT - SIGN)
