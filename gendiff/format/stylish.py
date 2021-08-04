@@ -7,7 +7,7 @@ SIGN= 2
 
 
 def get_render(data, indent_level=1): 
-    output = ""
+    output = []
     spaces = get_spaces(indent_level)
     sorting_content = sorted(data, key=lambda i: i[diff.KEY])
     for i in sorting_content:
@@ -16,38 +16,38 @@ def get_render(data, indent_level=1):
         key = i[diff.KEY]
         if status == diff.ADDED:
             if type(value) == dict:
-                output += f"\n{spaces}+ {key}: " \
-                          f"{make_pack(value, indent_level)}"
+                output.append(f"\n{spaces}+ {key}: " \
+                          f"{make_pack(value, indent_level)}")
             else:
-                output += f"\n{spaces}+ {str(key)}: " \
-                          f"{str(make_pack(value, indent_level))}"
+                output.append(f"\n{spaces}+ {str(key)}: " \
+                          f"{str(make_pack(value, indent_level))}")
         elif status == diff.REMOVED:
             if type(value) == dict:
-                output += f"\n{spaces}- {key}: " \
-                          f"{make_pack(value, indent_level)}"
+                output.append(f"\n{spaces}- {key}: " \
+                          f"{make_pack(value, indent_level)}")
             else:
-                output += f"\n{spaces}- {str(key)}: " \
-                          f"{str(make_pack(value, indent_level))}"
+                output.append(f"\n{spaces}- {str(key)}: " \
+                          f"{str(make_pack(value, indent_level))}")
         elif status == diff.CHANGED:
             if type(value) == tuple:
-                output += f"\n{spaces}- {key}: " \
-                          f"{str(make_pack(value[0], indent_level))}"
-                output += f"\n{spaces}+ {key}: " \
-                          f"{str(make_pack(value[1], indent_level))}"
+                output.append(f"\n{spaces}- {key}: " \
+                          f"{str(make_pack(value[0], indent_level))}")
+                output.append(f"\n{spaces}+ {key}: " \
+                          f"{str(make_pack(value[1], indent_level))}")
         elif status == diff.UNCHANGED:
             if type(value) == dict:
-                output += f"\n{spaces}  {key}: " \
-                          f"{make_pack(value, indent_level)}"
+                output.append(f"\n{spaces}  {key}: " \
+                          f"{make_pack(value, indent_level)}")
             else:
-                output += f"\n{spaces}  {key}: " \
-                          f"{make_pack(value, indent_level)}"
+                output.append(f"\n{spaces}  {key}: " \
+                          f"{make_pack(value, indent_level)}")
         elif status == diff.NESTED:
-            output += f"\n{spaces}  {key}: " \
-                      f"{get_render(value, indent_level + 1)}"
+            output.append(f"\n{spaces}  {key}: " \
+                      f"{get_render(value, indent_level + 1)}")
     if indent_level > 1:
-        result = '{' + output + '\n' + get_spaces(indent_level - 1) + '  }'
+        result = '{' + ''.join(output) + '\n' + get_spaces(indent_level - 1) + '  }'
     else:
-        result = '{' + output + '\n' + get_spaces(indent_level - 1) + '}'
+        result = '{' + ''.join(output) + '\n' + get_spaces(indent_level - 1) + '}'
     return result
 
 
