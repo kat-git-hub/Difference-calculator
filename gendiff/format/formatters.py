@@ -6,7 +6,7 @@ from gendiff.format.plain import get_plain
 def get_right_formatter(data, formatter='stylish'):
     if formatter == 'stylish':
         return get_render(data)
-    if formatter == 'plain':
+    elif formatter == 'plain':
         return get_plain(data)
     elif formatter == 'json':
         return get_json(data)
