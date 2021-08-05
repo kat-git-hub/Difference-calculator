@@ -1,9 +1,9 @@
 KEY = 'key'
 VALUE = 'value'
 TYPE = 'type'
-ADDED = 'added'
-REMOVED = 'removed'
-UNCHANGED = 'unchanged'
+ADDED = '+ '
+REMOVED = '- '
+UNCHANGED = '  '
 CHANGED = 'changed'
 NESTED = 'nested'
 

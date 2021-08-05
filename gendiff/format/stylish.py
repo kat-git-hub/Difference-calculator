@@ -3,10 +3,10 @@ from gendiff import diff
 
 
 INDENT = 4
-SIGN= 2
+SIGN = 2
 
 
-def get_render(data, indent_level=1): 
+def get_render(data, indent_level=1):
     output = []
     spaces = get_spaces(indent_level)
     sorting_content = sorted(data, key=lambda i: i[diff.KEY])
@@ -14,40 +14,30 @@ def get_render(data, indent_level=1):
         status = i[diff.TYPE]
         value = i[diff.VALUE]
         key = i[diff.KEY]
-        if status == diff.ADDED:
-            if type(value) == dict:
-                output.append(f"\n{spaces}+ {key}: " \
+        item_type = i.get(diff.TYPE)
+        if isinstance(value, dict):
+            output.append(f"\n{spaces}{item_type}{key}: "
                           f"{make_pack(value, indent_level)}")
-            else:
-                output.append(f"\n{spaces}+ {str(key)}: " \
-                          f"{str(make_pack(value, indent_level))}")
-        elif status == diff.REMOVED:
-            if type(value) == dict:
-                output.append(f"\n{spaces}- {key}: " \
-                          f"{make_pack(value, indent_level)}")
-            else:
-                output.append(f"\n{spaces}- {str(key)}: " \
-                          f"{str(make_pack(value, indent_level))}")
         elif status == diff.CHANGED:
             if type(value) == tuple:
-                output.append(f"\n{spaces}- {key}: " \
-                          f"{str(make_pack(value[0], indent_level))}")
-                output.append(f"\n{spaces}+ {key}: " \
-                          f"{str(make_pack(value[1], indent_level))}")
-        elif status == diff.UNCHANGED:
-            if type(value) == dict:
-                output.append(f"\n{spaces}  {key}: " \
-                          f"{make_pack(value, indent_level)}")
-            else:
-                output.append(f"\n{spaces}  {key}: " \
-                          f"{make_pack(value, indent_level)}")
+                output.append(f"\n{spaces}{diff.REMOVED}{key}: "
+                              f"{str(make_pack(value[0], indent_level))}")
+                output.append(f"\n{spaces}{diff.ADDED}{key}: "
+                              f"{str(make_pack(value[1], indent_level))}")
         elif status == diff.NESTED:
-            output.append(f"\n{spaces}  {key}: " \
-                      f"{get_render(value, indent_level + 1)}")
+            output.append(f"\n{spaces}{diff.UNCHANGED}{key}: "
+                          f"{get_render(value, indent_level + 1)}")
+        else:
+            output.append(f"\n{spaces}{item_type}{str(key)}: "
+                          f"{str(make_pack(value, indent_level))}")
     if indent_level > 1:
-        result = '{' + ''.join(output) + '\n' + get_spaces(indent_level - 1) + '  }'
+        result = (f"{{"
+                  f"{''.join(output)}\n{get_spaces(indent_level - 1)}"
+                  f"  }}")
     else:
-        result = '{' + ''.join(output) + '\n' + get_spaces(indent_level - 1) + '}'
+        result = (f"{{"
+                  f"{''.join(output)}\n{get_spaces(indent_level - 1)}"
+                  f"}}")
     return result
 
 
@@ -57,21 +47,25 @@ def make_pack(node, indent_level=0):
     if type(node) is bool:
         return 'true' if node else 'false'
     if isinstance(node, dict):
-        output_text = '{'
-        for key, value in node.items():
-            spaces = get_spaces(indent_level + 1)
-            if isinstance(value, dict):
-                output_text += f'\n{spaces}  {key}: ' \
-                    f'{make_pack(value, indent_level + 1)}'
-            else:
-                output_text += f'\n{spaces}  {key}: {value}'
-        output_text += f'\n{get_spaces(indent_level)}  }}'
-        return output_text
+        return rendering_dict(node, indent_level)
     else:
         return node
 
-def make_brackets():
-    pass
+
+def rendering_dict(node, indent_level):
+    output_text = '{'
+    for key, value in node.items():
+
+        spaces = get_spaces(indent_level + 1)
+        if isinstance(value, dict):
+
+            output_text += f'\n{spaces}  {key}: ' \
+                f'{make_pack(value, indent_level + 1)}'
+        else:
+            output_text += f'\n{spaces}  {key}: {value}'
+    output_text += f'\n{get_spaces(indent_level)}  }}'
+    return output_text
+
 
 def get_spaces(depth):
     return ' ' * (depth * INDENT - SIGN)
