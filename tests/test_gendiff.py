@@ -23,7 +23,7 @@ def test_stylish(file1, file2, answer):
   with open(os.path.join(path, answer)) as f:
     expected_result = f.read()
   result = generate_diff(os.path.join(path, file1),
-                         os.path.join(path, file2), None)
+                         os.path.join(path, file2), 'stylish')
   assert result == expected_result
 
 
