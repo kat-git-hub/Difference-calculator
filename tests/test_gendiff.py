@@ -1,6 +1,7 @@
 from gendiff import generate_diff
 from gendiff.format import plain
 from gendiff.format import json
+from gendiff.format import stylish
 import pytest
 import os
 import json
@@ -12,11 +13,11 @@ path = 'tests/fixtures/'
 
 @pytest.mark.parametrize('file1, file2, answer', 
                          [('test_01_before.json', 'test_01_after.json',
-                           'test_answer_1.txt'),
+                           'test_answer_stylish.txt'),
                          ('test_02_before.yml', 'test_02_after.yml', 
-                          'test_answer_1.txt'),
+                          'test_answer_stylish.txt'),
                          ('test_03_before.json', 'test_03_after.json', 
-                          'test_answer_2.txt')]
+                          'test_answer_stylish_2.txt')]
                         )
 def test_stylish(file1, file2, answer):
   with open(os.path.join(path, answer)) as f:
