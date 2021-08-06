@@ -48,6 +48,6 @@ optional arguments:
 
 ### 📺 **Demo**
 
-[![asciicast](https://asciinema.org/a/XtppwtVV6CATyMlwm1dZ1KMem.svg)](https://https://asciinema.org/a/XtppwtVV6CATyMlwm1dZ1KMem)
+[![asciicast](https://asciinema.org/a/XtppwtVV6CATyMlwm1dZ1KMem.svg)](https://asciinema.org/a/XtppwtVV6CATyMlwm1dZ1KMem)
 
 ----
