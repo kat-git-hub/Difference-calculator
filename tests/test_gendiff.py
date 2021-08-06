@@ -11,15 +11,15 @@ import yaml
 path = 'tests/fixtures/'
 
 
-@pytest.mark.parametrize('file1, file2, answer', 
+@pytest.mark.parametrize('file1, file2, answer, formatter', 
                          [('test_01_before.json', 'test_01_after.json',
-                           'test_answer_stylish.txt'),
+                           'test_answer_stylish.txt', 'stylish'),
                          ('test_02_before.yml', 'test_02_after.yml', 
-                          'test_answer_stylish.txt'),
+                          'test_answer_stylish.txt', 'stylish'),
                          ('test_03_before.json', 'test_03_after.json', 
-                          'test_answer_stylish_2.txt')]
+                          'test_answer_stylish_2.txt', 'stylish')]
                         )
-def test_stylish(file1, file2, answer):
+def test_stylish(file1, file2, answer, formatter):
   with open(os.path.join(path, answer)) as f:
     expected_result = f.read()
   result = generate_diff(os.path.join(path, file1),
