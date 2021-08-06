@@ -10,14 +10,14 @@ def get_plain(data, parent=""):
         value = i[diff.VALUE]
         status = i[diff.TYPE]
         if status == diff.CHANGED:
-            output.append("\nProperty '{}{}' was updated.".format(path, key))
-            output.append(" From {} to {}"
+            output.append("Property '{}{}' was updated.".format(path, key))
+            output.append(" From {} to {}\n"
                           .format(get_value(value[0]), get_value(value[1])))
         elif status == diff.ADDED:
-            output.append("\nProperty '{}{}' was added with value: {}"
+            output.append("Property '{}{}' was added with value: {}\n"
                           .format(path, key, get_value(value)))
         elif status == diff.REMOVED:
-            output.append("\nProperty '{}{}' was removed"
+            output.append("Property '{}{}' was removed\n"
                           .format(path, key))
         elif status == diff.NESTED:
             output.append(get_plain(value, f"{path}{key}"))
