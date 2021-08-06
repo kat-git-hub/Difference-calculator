@@ -16,7 +16,7 @@ path = 'tests/fixtures/'
                            'test_answer_stylish_2.txt', 'stylish')])
 def test_stylish(file1, file2, answer, formatter):
     with open(os.path.join(path, answer)) as f:
-      expected_result = f.read()
+        expected_result = f.read()
     result = generate_diff(os.path.join(path, file1),
                            os.path.join(path, file2), 'stylish')
     assert result == expected_result
@@ -29,7 +29,7 @@ def test_stylish(file1, file2, answer, formatter):
                            'test_answer_plain.txt')])
 def test_plain(file1, file2, answer):
     with open(os.path.join(path, answer)) as f:
-      expected_result = f.read()
+        expected_result = f.read()
     result = generate_diff(os.path.join(path, file1),
                            os.path.join(path, file2), 'plain')
     assert result == expected_result
@@ -42,10 +42,10 @@ def test_plain(file1, file2, answer):
                            'test_answer_json.json')])
 def test_json(file1, file2, answer):
     with open(os.path.join(path, 'test_answer_json.json')) as f:
-      check = json.load(f)
-    check_json = generate_diff(os.path.join(path, file1), 
+        check = json.load(f)
+    check_json = generate_diff(os.path.join(path, file1),
                                os.path.join(path, file2), 'json')
-    check_yml = generate_diff(os.path.join(path, file1), 
+    check_yml = generate_diff(os.path.join(path, file1),
                               os.path.join(path, file2), 'json')
     assert check == json.loads(check_json)
     assert check == json.loads(check_yml)
