@@ -3,17 +3,17 @@ import yaml
 import os
 
 
-def get_data_type(source):
+def get_extension(source):
     _, type = os.path.splitext(source)
-    type = type.lower()
-    return type
+    extension = type.lower()
+    return extension
 
 
 def get_parsing(source):
-    type = get_data_type(source)
-    if type == '.json':
+    extension = get_extension(source)
+    if extension == '.json':
         return json.load(open(source))
-    elif type == '.yml' or type == '.yaml':
+    elif extension == '.yml' or extension == '.yaml':
         return yaml.load(open(source), Loader=yaml.FullLoader)
     else:
         raise ValueError('Unknown extension')

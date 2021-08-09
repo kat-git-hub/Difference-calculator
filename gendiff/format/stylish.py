@@ -19,17 +19,17 @@ def get_render(data, indent_level=1):
             output.append(f"\n{spaces}{item_type}{key}: "
                           f"{make_pack(value, indent_level)}")
         elif status == diff.CHANGED:
-            if type(value) == tuple:
-                output.append(f"\n{spaces}{diff.REMOVED}{key}: "
-                              f"{str(make_pack(value[0], indent_level))}")
-                output.append(f"\n{spaces}{diff.ADDED}{key}: "
-                              f"{str(make_pack(value[1], indent_level))}")
+            old, new = value
+            output.append(f"\n{spaces}{diff.REMOVED}{key}: "
+                          f"{make_pack(old, indent_level)}")
+            output.append(f"\n{spaces}{diff.ADDED}{key}: "
+                          f"{make_pack(new, indent_level)}")
         elif status == diff.NESTED:
             output.append(f"\n{spaces}{diff.UNCHANGED}{key}: "
                           f"{get_render(value, indent_level + 1)}")
         else:
-            output.append(f"\n{spaces}{item_type}{str(key)}: "
-                          f"{str(make_pack(value, indent_level))}")
+            output.append(f"\n{spaces}{item_type}{key}: "
+                          f"{make_pack(value, indent_level)}")
     if indent_level > 1:
         result = (f"{{"
                   f"{''.join(output)}\n{get_spaces(indent_level - 1)}"
