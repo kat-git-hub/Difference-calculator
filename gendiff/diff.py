@@ -1,11 +1,11 @@
 KEY = 'key'
 VALUE = 'value'
 TYPE = 'type'
-ADDED = '+ '
-REMOVED = '- '
-UNCHANGED = '  '
-CHANGED = 'changed'
-NESTED = 'nested'
+ADDED = 'added+ '
+REMOVED = 'removed- '
+UNCHANGED = 'unchanged  '
+CHANGED = 'changed  '
+NESTED = 'nested  '
 
 
 def make_diff(source1, source2):

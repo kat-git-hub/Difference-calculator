@@ -3,7 +3,7 @@ from gendiff.format.json import get_json
 from gendiff.format.plain import get_plain
 
 
-def get_right_formatter(data, formatter='stylish'):
+def get_formatted_data(data, formatter='stylish'):
     if formatter == 'stylish':
         return get_render(data)
     elif formatter == 'plain':

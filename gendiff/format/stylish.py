@@ -13,15 +13,15 @@ def get_render(data, indent_level=1):
         status = i[diff.TYPE]
         value = i[diff.VALUE]
         key = i[diff.KEY]
-        item_type = i.get(diff.TYPE)
+        item_type = i[diff.TYPE][-2:]
         if status == diff.CHANGED:
             old, new = value
-            output.append(f"\n{spaces}{diff.REMOVED}{key}: "
+            output.append(f"\n{spaces}{diff.REMOVED[-2:]}{key}: "
                           f"{value_to_string(old, indent_level)}")
-            output.append(f"\n{spaces}{diff.ADDED}{key}: "
+            output.append(f"\n{spaces}{diff.ADDED[-2:]}{key}: "
                           f"{value_to_string(new, indent_level)}")
         elif status == diff.NESTED:
-            output.append(f"\n{spaces}{diff.UNCHANGED}{key}: "
+            output.append(f"\n{spaces}{diff.NESTED[-2:]}{key}: "
                           f"{get_render(value, indent_level + 1)}")
         else:
             output.append(f"\n{spaces}{item_type}{key}: "
@@ -51,10 +51,8 @@ def value_to_string(node, indent_level=0):
 def render_dict(node, indent_level):
     output_text = '{'
     for key, value in node.items():
-
         spaces = get_spaces(indent_level + 1)
         if isinstance(value, dict):
-
             output_text += (f"\n{spaces}  {key}: "
                             f"{value_to_string(value, indent_level + 1)}")
         else:

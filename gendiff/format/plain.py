@@ -10,9 +10,10 @@ def get_plain(data, parent=""):
         value = i[diff.VALUE]
         status = i[diff.TYPE]
         if status == diff.CHANGED:
+            old, new = value
             output.append("Property '{}{}' was updated. From {} to {}"
-                          .format(path, key, get_value(value[0]),
-                                  get_value(value[1])))
+                          .format(path, key, get_value(old),
+                                  get_value(new)))
         elif status == diff.ADDED:
             output.append("Property '{}{}' was added with value: {}"
                           .format(path, key, get_value(value)))
