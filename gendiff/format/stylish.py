@@ -1,3 +1,4 @@
+# flake8: noqa: C901
 from gendiff import diff
 
 
@@ -13,18 +14,23 @@ def get_render(data, indent_level=1):
         status = i[diff.TYPE]
         value = i[diff.VALUE]
         key = i[diff.KEY]
-        item_type = i[diff.TYPE][-2:]
-        if status == diff.CHANGED:
-            old, new = value
-            output.append(f"\n{spaces}{diff.REMOVED[-2:]}{key}: "
-                          f"{value_to_string(old, indent_level)}")
-            output.append(f"\n{spaces}{diff.ADDED[-2:]}{key}: "
-                          f"{value_to_string(new, indent_level)}")
-        elif status == diff.NESTED:
-            output.append(f"\n{spaces}{diff.NESTED[-2:]}{key}: "
+        if status == diff.NESTED:
+            output.append(f"\n{spaces}  {key}: "
                           f"{get_render(value, indent_level + 1)}")
-        else:
-            output.append(f"\n{spaces}{item_type}{key}: "
+        elif status == diff.ADDED:
+            output.append(f"\n{spaces}+ {key}: "
+                          f"{value_to_string(value, indent_level)}")
+        elif status == diff.REMOVED:
+            output.append(f"\n{spaces}- {key}: "
+                          f"{value_to_string(value, indent_level)}")
+        elif status == diff.CHANGED:
+            old, new = value
+            output.append(f"\n{spaces}- {key}: "
+                          f"{value_to_string(old, indent_level)}")
+            output.append(f"\n{spaces}+ {key}: "
+                          f"{value_to_string(new, indent_level)}")
+        elif status == diff.UNCHANGED:
+            output.append(f"\n{spaces}  {key}: "
                           f"{value_to_string(value, indent_level)}")
     if indent_level > 1:
         result = (f"{{"
