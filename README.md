@@ -16,7 +16,7 @@
 
 - Clone the project:
 
-  `$ git clone git@github.com:kat-git-hub/python-project-lvl2.git`
+  `$ git clone git@github.com:kat-git-hub/Difference-calculator.git`
 
 - Cd into the directory with the project and run:
 
