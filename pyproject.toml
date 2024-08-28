@@ -8,14 +8,18 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-PyYAML = "^5.4"
+python = ">=3.8.1,<4.0"
+PyYAML = "^6.0.2"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.1"
 pytest = "^6.2.3"
 pytest-cov = "^2.11.1"
 
+[tool.poetry.group.dev.dependencies]
+importlib-metadata = "^8.4.0"
+
+flake8 = "6.0.0"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
